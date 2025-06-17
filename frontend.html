@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comparison Tool for Research - Is Quantum better for MNIST?</title>
+    <link rel="stylesheet" href="frontend.css">
+</head>
+<body>
+    <h1>Comparison Tool for Research - Is Quantum better alone for MNIST?</h1>
+    <div class="container">
+        <div class="column">
+            <h2>Quantum Neural Network</h2>
+            <div class="images" id="quantum-images"></div>
+        </div>
+        <div class="column">
+            <h2>Hybrid Neural Network</h2>
+            <div class="images" id="hybrid-images"></div>
+        </div>
+        <div class="column">
+            <h2>Classical Neural Network</h2>
+            <div class="images" id="classical-images"></div>
+        </div>
+    </div>
+    <script>
+        // Image filenames for each column
+        const quantumImages = [
+            'images/quantum1.png',
+            'images/quantum2.png',];
+
+        const hybridImages = [
+            'images/quantum1.png',
+            'images/quantum2.png',];
+
+        const classicalImages = [
+            'images/quantum1.png',
+            'images/quantum2.png',];        
+
+        function renderImages(containerId, images) {
+            const container = document.getElementById(containerId);
+            images.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = '';
+                container.appendChild(img);
+            });
+        }
+
+        renderImages('quantum-images', quantumImages);
+        renderImages('hybrid-images', hybridImages);
+        renderImages('classical-images', classicalImages);
+    </script>
+</body>
+</html>
