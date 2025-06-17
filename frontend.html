@@ -11,25 +11,33 @@
         <div class="column">
             <h2>Quantum Neural Network</h2>
             <div class="images" id="quantum-images"></div>
+            <div class="image-descriptions" id="descriptions"></div>
         </div>
         <div class="column">
             <h2>Hybrid Neural Network</h2>
             <div class="images" id="hybrid-images"></div>
+            <div class="image-descriptions" id="descriptions"></div>
         </div>
         <div class="column">
             <h2>Classical Neural Network</h2>
             <div class="images" id="classical-images"></div>
+            <div class="image-descriptions" id="descriptions"></div>
         </div>
     </div>
     <script>
         // Image filenames for each column
+        const imageDescriptions = [
+            'Quantum Neural Network Image 1',
+            'Quantum Neural Network Image 2',
+        ];
         const quantumImages = [
             'images/quantum1.png',
             'images/quantum2.png',];
 
         const hybridImages = [
             'images/quantum1.png',
-            'images/quantum2.png',];
+            'images/quantum2.png',
+            'images/hybrid3.png',];
 
         const classicalImages = [
             'images/quantum1.png',
@@ -42,12 +50,26 @@
                 img.src = src;
                 img.alt = '';
                 container.appendChild(img);
+                const br = document.createElement('br');
+                container.appendChild(br);
+                const p = document.createElement('p');
+                p.textContent=descriptions[0];
+                container.appendChild(p);
             });
         }
 
         renderImages('quantum-images', quantumImages);
         renderImages('hybrid-images', hybridImages);
         renderImages('classical-images', classicalImages);
+        function renderDescriptions(containerId, descriptions) {
+            const container = document.getElementById(containerId);
+            descriptions.forEach(desc => {
+                const p = document.createElement('p');
+                p.textContent = desc;
+                container.appendChild(p);
+            });
+        }
+        renderDescriptions('descriptions', imageDescriptions);
     </script>
 </body>
 </html>
