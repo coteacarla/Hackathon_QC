@@ -7,11 +7,20 @@ body {
             text-align: center;
             margin-bottom: 40px;
         }
+        .painting-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+        }
         .container {
             display: flex;
             gap: 15px;
             justify-content: center;
         }
+        
         .column {
             background: #fff;
             padding: 12px;

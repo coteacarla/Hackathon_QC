@@ -7,6 +7,11 @@
 </head>
 <body>
     <h1>Comparison Tool for Research - Is Quantum better alone for MNIST?</h1>
+    <div class="painting-container">
+        <h4>Paint your own MNIST digit 0 and 1 to check how the 3 NNs perform!</h2>   
+        <canvas id="paintCanvas" width="280" height="280" style="border:1px solid black;"></canvas>
+        <button onclick="getImage()">Save Image</button>
+    </div>
     <div class="container">
         <div class="column">
             <h2>Quantum Neural Network</h2>
@@ -70,6 +75,43 @@
             });
         }
         renderDescriptions('descriptions', imageDescriptions);
+
+        // Painting functionality
+        const canvas = document.getElementById("paintCanvas");
+        const ctx = canvas.getContext("2d");
+        // Set background to black
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        let painting = false;
+
+        canvas.addEventListener("mousedown", () => (painting = true));
+        canvas.addEventListener("mouseup", () => (painting = false));
+        canvas.addEventListener("mousemove", (event) => {
+            if (!painting) return;
+                ctx.fillStyle = "white"; // Draw in white
+                ctx.fillRect(event.offsetX, event.offsetY, 10, 10);
+        });
+
+        function getImage() {
+            // Resize the image to 28x28 pixels
+            const smallCanvas = document.createElement("canvas");
+            smallCanvas.width = 28;
+            smallCanvas.height = 28;
+            const smallCtx = smallCanvas.getContext("2d");
+            smallCtx.fillStyle = "black";
+            smallCtx.fillRect(0, 0, 28, 28);
+            smallCtx.drawImage(canvas, 0, 0, 28, 28);
+            const imageData = smallCanvas.toDataURL("image/png");
+            // Create a download link
+            const link = document.createElement("a");
+            link.href = imageData;
+            link.download = "drawing.png"; // Image file name
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            // Display or store the image
+            console.log(imageData);
+        }
     </script>
 </body>
 </html>
