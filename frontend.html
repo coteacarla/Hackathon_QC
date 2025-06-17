@@ -37,16 +37,17 @@
         ];
         const quantumImages = [
             'images/quantum1.png',
-            'images/quantum2.png',];
+            'images/quantum2.png',
+            ];
 
         const hybridImages = [
-            'images/quantum1.png',
-            'images/quantum2.png',
-            'images/hybrid3.png',];
+            'images/hybrid1.png',
+            'images/hybrid3.png',
+            ];
 
         const classicalImages = [
-            'images/quantum1.png',
-            'images/quantum2.png',];        
+            'images/classical01.png',
+            'images/classical2.png',];        
 
         function renderImages(containerId, images) {
             const container = document.getElementById(containerId);
@@ -55,26 +56,17 @@
                 img.src = src;
                 img.alt = '';
                 container.appendChild(img);
-                const br = document.createElement('br');
-                container.appendChild(br);
-                const p = document.createElement('p');
-                p.textContent=descriptions[0];
-                container.appendChild(p);
+                // const br = document.createElement('br');
+                // container.appendChild(br);
+                // const p = document.createElement('p');
+                // p.textContent=descriptions[0];
+                // container.appendChild(p);
             });
         }
 
         renderImages('quantum-images', quantumImages);
         renderImages('hybrid-images', hybridImages);
         renderImages('classical-images', classicalImages);
-        function renderDescriptions(containerId, descriptions) {
-            const container = document.getElementById(containerId);
-            descriptions.forEach(desc => {
-                const p = document.createElement('p');
-                p.textContent = desc;
-                container.appendChild(p);
-            });
-        }
-        renderDescriptions('descriptions', imageDescriptions);
 
         // Painting functionality
         const canvas = document.getElementById("paintCanvas");
