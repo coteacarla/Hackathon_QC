@@ -184,6 +184,7 @@ def hybrid_model_evaluate_performance(model,batch_size=1):
             )
         )
 
+image = Image.open("digits_sample/drawing_0.png")
 
 (X_train,train_loader) = hybrid_model_train()
 hybrid_model_show_training(train_loader)
@@ -202,9 +203,8 @@ hybrid_model_evaluate_performance(model5, batch_size=1)
 # To run the Flask app, add:
 # if __name__ == '__main__':
 #     app.run(debug=True)
-image = Image.open("drawing_1.png")
+
 def predict_image(image):
-    # Read image from request and preprocess for model
     img = image.convert('L')
     img = img.resize((28, 28))
     img_tensor = transforms.ToTensor()(img).unsqueeze(0)
