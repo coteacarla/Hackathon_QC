@@ -137,7 +137,7 @@ class Net(Module):
         x = self.fc3(x)
         return cat((x, 1 - x), -1)
 
-def hybrid_model_actually_hybrid_train(model, train_loader):
+def hybrid_model_actually_hybrid_train(model4, train_loader):
     # Define model, optimizer, and loss function
     optimizer = optim.Adam(model4.parameters(), lr=0.001)
     loss_func = NLLLoss()
@@ -190,21 +190,23 @@ image = Image.open("digits_sample/drawing_0.png")
 hybrid_model_show_training(train_loader)
 (X_test, test_loader) = hybrid_model_test()
 
-qnn4 = create_qnn()
-model4 = Net(qnn4)
-hybrid_model_actually_hybrid_train(model4, train_loader)
-qnn5 = create_qnn()
-model5 = Net(qnn5)
-torch.save(model4.state_dict(), "model4.pt")
-model5.load_state_dict(torch.load("model4.pt"))
-hybrid_model_evaluate_performance(model5, batch_size=1)
+# qnn4 = create_qnn()
+# model4 = Net(qnn4)
+# hybrid_model_actually_hybrid_train(model4, train_loader)
+# qnn5 = create_qnn()
+# model5 = Net(qnn5)
+# torch.save(model4.state_dict(), "model4.pt")
+# model5.load_state_dict(torch.load("model4.pt"))
+# hybrid_model_evaluate_performance(model5, batch_size=1)
 #hybrid_model_plot_predicted_labels(model5)
 
-# To run the Flask app, add:
-# if __name__ == '__main__':
-#     app.run(debug=True)
 
-def predict_image(image):
+#load the model model4.pt
+model5 = Net(create_qnn())
+model5.load_state_dict(torch.load("model4.pt"))
+
+
+def predict_image_hybrid(image):
     img = image.convert('L')
     img = img.resize((28, 28))
     img_tensor = transforms.ToTensor()(img).unsqueeze(0)
@@ -216,6 +218,8 @@ def predict_image(image):
             output = output.reshape(1, *output.shape)
         pred = output.argmax(dim=1, keepdim=True).item()
     print(f"Predicted label: {pred}")
+    digits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+    #return digits[pred.item()]
     return pred
 
-predict_image(image)
+#predict_image(image)
