@@ -80,4 +80,56 @@ window.addEventListener('DOMContentLoaded', () => {
         // Display or store the image
         console.log(imageData);
     };
+
+    // Add an event listener to the button to upload the image at http://127.0.0.1:5000/upload
+    // (Button should exist in your HTML with id="uploadBtn")
+    const uploadBtn = document.getElementById("uploadBtn");
+    if (uploadBtn) {
+        uploadBtn.addEventListener("click", async () => {
+            // Get the 28x28 image data
+            const smallCanvas = document.createElement("canvas");
+            smallCanvas.width = 28;
+            smallCanvas.height = 28;
+            const smallCtx = smallCanvas.getContext("2d");
+            smallCtx.fillStyle = "black";
+            smallCtx.fillRect(0, 0, 28, 28);
+            smallCtx.drawImage(canvas, 0, 0, 28, 28);
+            const blob = await new Promise(resolve => smallCanvas.toBlob(resolve, "image/png"));
+            const formData = new FormData();
+            formData.append("file", blob, "drawing.png");
+            try {
+                const response = await fetch("http://127.0.0.1:5000/upload", {
+                    method: "POST",
+                    body: formData
+                });
+                if (response.ok) {
+                    // Handle successful upload
+                    alert("Image uploaded successfully!");
+                    const result = await response.json();
+                    console.log("Server response:", result);
+                    // Optionally, you can display the result or do something with it
+                    if (result && result.message) {
+                        alert(result.message.label);
+                    } else {
+                        alert("Upload successful, but no message returned.");
+                    }
+                } else {
+                    alert("Upload failed.");
+                }
+            } catch (err) {
+                alert("Error uploading image.");
+            }
+        });
+    }
+
+    // Add an event listener to the button to clear the canvas
+    const clearBtn = document.getElementById("clearBtn");
+    if (clearBtn) {
+        clearBtn.addEventListener("click", () => {
+            ctx.fillStyle = "black"; // Clear to black
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        });
+    }
+
+    
 });

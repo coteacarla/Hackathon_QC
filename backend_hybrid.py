@@ -216,5 +216,6 @@ def predict_image(image):
             output = output.reshape(1, *output.shape)
         pred = output.argmax(dim=1, keepdim=True).item()
     print(f"Predicted label: {pred}")
+    return pred
 
 predict_image(image)
