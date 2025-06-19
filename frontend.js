@@ -24,6 +24,8 @@ const classicalImages = [
     'images/classical2.png',
 ];
 
+var prediction = '';
+
 function renderImages(containerId, images) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -111,6 +113,11 @@ window.addEventListener('DOMContentLoaded', () => {
                     console.log(result);
                     //console.log("Message:", result.message);
                     console.log("Label:", result.label);
+                    prediction = result.label;
+                    console.log(" PREDICTION: ", prediction);
+                    // Call this function after prediction is set (e.g., after upload)
+                    predictionText.textContent = `${prediction}`;
+                    //window.updatePredictionText = updatePredictionText;
                     // if (result) {
                     //     alert("Predicted label for the provided image is: " + result.label);
                     // } else {
@@ -154,11 +161,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     console.log(result);
                     //console.log("Message:", result.message);
                     console.log("Label:", result.label);
-                    // if (result) {
-                    //     alert("Predicted label for the provided image is: " + result.label);
-                    // } else {
-                    //     alert("Upload successful, but no message returned.");
-                    // }
+                    prediction = result.label;
+                    predictionText.textContent = `${prediction}`;
                     alert("Predicted label for the provided image is: " + result.label);
                 } else {
                     alert("Upload failed.");
@@ -177,6 +181,20 @@ window.addEventListener('DOMContentLoaded', () => {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         });
     }
+    console.log(" PREDICTION FIRST: ", prediction);
+    // Put the prediction in the HTML element with id="predictionText"
+    async function updatePredictionText() {
+        const predictionText = document.getElementById("predictionText");
+        // Wait until prediction is updated (not empty string)
+        while (prediction === '') {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            console.log(" PREDICTION 1: ", prediction);
+        }
+        predictionText.textContent = `${prediction}`;
+        console.log(" PREDICTION 2: ", prediction);
+    }
+
+    
 
     
 });

@@ -9,14 +9,28 @@
 </head>
 <body>
     <h1>Comparison Tool for Research - Is Quantum better alone for MNIST?</h1>
+    
     <div class="painting-container">
-        <h4>Paint your own MNIST digit 0 and 1 to check how the 3 NNs perform!</h2>   
-        <canvas id="paintCanvas" width="280" height="280" style="border:1px solid black;"></canvas>
-        <button onclick="getImage()">Save Image</button>
-        <button id="uploadBtnQuantum">Upload Image Quantum</button>
-        <button id="uploadBtnHybrid">Upload Image Hybrid</button>
-        <button id="uploadBtnClassical">Upload Image Classical</button>
-        <button id="clearBtn">Clear Canvas</button>
+        <!-- Canvas on the left -->
+        <div class="canvas-container">
+            <h4 style="margin-bottom: 10px;">Paint your own MNIST digit 0 or 1 to check how the 3 NNs perform!</h4>
+            <canvas id="paintCanvas" width="280" height="280" style="border:1px solid black; display: block; margin:auto;"></canvas>
+        </div>
+        <!-- Buttons in the center -->
+        <div class="buttons-container">
+            <h4 style="padding: 0px; margin-top:-95px;">Which NN should predict the label?</h4>
+            <button id="uploadBtnQuantum">Quantum Neural Network</button>
+            <button id="uploadBtnHybrid">Hybrid Neural Network</button>
+            <button id="uploadBtnClassical">Classical Neural Network</button>
+            <button onclick="getImage()">Save Image</button>
+            <button id="clearBtn">Clear Canvas</button>
+        </div>
+        <!-- Text area on the right -->
+        <div class="prediction-container">
+            <h4 style="padding:0px; margin-top: -139px;">And the predicted label is...</h4>
+            <div id="predictionText" style="border: 1px solid black; background-color:black; min-height: 60px; padding: 8px; text-align:center; font-size: 24px; color: white;">
+            </div>
+        </div>
     </div>
     <div class="container">
         <div class="column">

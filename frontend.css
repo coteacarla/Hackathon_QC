@@ -8,12 +8,39 @@ body {
             margin-bottom: 40px;
         }
         .painting-container {
-            display: flex;
+            /* display: flex;
             flex-direction: column;
             gap: 20px;
             width: 100%;
             align-items: center;
+            justify-content: center; */
+            
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            gap: 25px; 
+            margin-bottom: 32px;
+       
+        }
+        .canvas-container{
+            align-items: center;
             justify-content: center;
+            flex: 0 0 auto; 
+            width:32%;
+        }
+        .buttons-container{
+            width:32%;
+            flex: 0 0 auto; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 8px;
+        }
+        .prediction-container{
+            width: 32%;
+            flex: 1 1 0; 
+            min-width: 180px; 
+            padding-left: 16px;
         }
         .container {
             display: flex;
