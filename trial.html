@@ -127,6 +127,7 @@
             background: #f8f9fa;
             border-radius: 10px;
             min-height: 400px;
+            max-width: 1300px;
         }
 
         .tab-content.active {
@@ -318,25 +319,25 @@
                     <button class="tool-btn" id="saveCanvas">💾 Save</button>
                 </div>
 
-                <button class="predict-btn" onclick="predictDigit()">🔮 Predict with All Networks</button>
+                <button class="predict-btn" id="predictDigit">🔮 Predict with All Networks</button>
 
                 <div class="prediction-section">
                     <h3>Current Predictions</h3>
                     <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
                         <div style="flex: 1; min-width: 220px;">
                             <h4>💻 Classical NN</h4>
-                            <div class="prediction-result" id="predictionResult-classical">Draw a digit!</div>
-                            <div class="confidence-bars" id="confidenceBars-classical"></div>
+                            <div class="prediction-result" id="predictionResultclassical">Draw a digit!</div>
+                            <!-- <div class="confidence-bars" id="confidenceBars-classical"></div> -->
                         </div>
                         <div style="flex: 1; min-width: 220px;">
                             <h4>🔄 Hybrid NN</h4>
-                            <div class="prediction-result" id="predictionResult-hybrid">Draw a digit!</div>
-                            <div class="confidence-bars" id="confidenceBars-hybrid"></div>
+                            <div class="prediction-result" id="predictionResulthybrid">Draw a digit!</div>
+                            <!-- <div class="confidence-bars" id="confidenceBars-hybrid"></div> -->
                         </div>
                         <div style="flex: 1; min-width: 220px;">
                             <h4>⚛️ Quantum NN</h4>
                             <div class="prediction-result" id="predictionResult-quantum">Draw a digit!</div>
-                            <div class="confidence-bars" id="confidenceBars-quantum"></div>
+                            <!-- <div class="confidence-bars" id="confidenceBars-quantum"></div> -->
                         </div>
                     </div>
                 </div>

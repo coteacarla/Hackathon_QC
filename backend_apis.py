@@ -1,7 +1,7 @@
 from PIL import Image
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from backend_hybrid import predict_image_hybrid
+#from backend_hybrid import predict_image_hybrid
 from backend_cnn import predict_image_cnn
 import os
 
@@ -16,7 +16,8 @@ image = Image.open("digits_sample/drawing_0.png")
 @app.route('/predict', methods=['POST'])
 def predict():
     image = Image.open("digits_sample/drawing_0.png")
-    label = predict_image_hybrid(image)
+    #label = predict_image_hybrid(image)
+    label = 0
     print(f"Predicted label: {label}")
     return jsonify({'label': label})
 
@@ -35,7 +36,9 @@ def upload_and_predict_hybrid():
         filepath = os.path.join(DIGITS_SAMPLE_FOLDER, file.filename)
         file.save(filepath)
         image = Image.open(filepath)
-        label = predict_image_hybrid(image)
+        #label = predict_image_hybrid(image)
+        label = 4
+        print(f"Predicted label: {label}")
         return jsonify({'label': label})
 
     return jsonify({'error': 'File upload failed'}), 500
@@ -56,6 +59,7 @@ def upload_and_predict():
         file.save(filepath)
         image = Image.open(filepath)
         label = predict_image_cnn(image)
+        print(f"Predicted label: {label}")
         return jsonify({'label': label})
 
     return jsonify({'error': 'File upload failed'}), 500

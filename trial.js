@@ -107,57 +107,86 @@
             link.click();
         }
 
-        function predictDigit() {
-            // Simulate prediction process
-            const results = simulateNetworkPredictions();
-            displayPredictionResults(results);
+        // function predictDigit() {
+        //     // Simulate prediction process
+        //     const results = simulateNetworkPredictions();
+        //     displayPredictionResults(results);
+        // }
+
+        const predictBtn = document.getElementById("predictDigit");
+        if (predictBtn) {
+            predictBtn.addEventListener("click", () => {
+                console.log("Predict button clicked");
+                predictDigit("classical");
+                predictDigit("hybrid");
+                //predictDigit("quantum");
+            });
         }
 
-        // async function predictDigit() {
-        //     // Predict with Classical NN
-        //     await predictWithNetwork("classical", "http://127.0.0.1:5000/upload_and_predict_cnn");
-        //     // Predict with Hybrid NN
-        //     await predictWithNetwork("hybrid", "http://127.0.0.1:5000/upload_and_predict_hybrid");
-        //     // Predict with Quantum NN
-        //     //await predictWithNetwork("quantum", "http://127.0.0.1:5000/upload_and_predict_quantum");
-        // }
+        async function predictDigit(networkType) {
+            if(networkType === "classical") 
+                // Predict with Classical NN
+                await predictWithNetwork("classical", "http://127.0.0.1:5000/upload_and_predict_cnn");
+            else if(networkType === "hybrid")
+                // Predict with Hybrid NN
+                await predictWithNetwork("hybrid", "http://127.0.0.1:5000/upload_and_predict_hybrid");
+            //else if(networkType === "quantum")
+            // Predict with Quantum NN
+            //await predictWithNetwork("quantum", "http://127.0.0.1:5000/upload_and_predict_quantum");
+        }
 
-        // async function predictWithNetwork(networkType, endpoint) {
-        //     // Prepare 28x28 image data
-        //     const smallCanvas = document.createElement("canvas");
-        //     smallCanvas.width = 28;
-        //     smallCanvas.height = 28;
-        //     const smallCtx = smallCanvas.getContext("2d");
-        //     smallCtx.fillStyle = "black";
-        //     smallCtx.fillRect(0, 0, 28, 28);
-        //     smallCtx.drawImage(canvas, 0, 0, 28, 28);
-        //     const blob = await new Promise(resolve => smallCanvas.toBlob(resolve, "image/png"));
-        //     const formData = new FormData();
-        //     formData.append("file", blob, "drawing.png");
-        //     try {
-        //     const response = await fetch(endpoint, {
-        //         method: "POST",
-        //         body: formData
-        //     });
-        //     if (response.ok) {
-        //         const result = await response.json();
-        //         // Display result if this network is the active tab
-        //         if (
-        //         (currentTab === "overview" && networkType === "hybrid") ||
-        //         currentTab === networkType
-        //         ) {
-        //         document.getElementById('predictionResult').textContent = result.label;
-        //         if (result.confidences) {
-        //             displayConfidenceBars(result.confidences);
-        //         }
-        //         }
-        //     } else {
-        //         alert(`Upload failed for ${networkType} network.`);
-        //     }
-        //     } catch (err) {
-        //     alert(`Error uploading image for ${networkType} network.`);
-        //     }
-        // }
+        predictionClassical ='';
+        predictionHybrid = '';
+        predictionQuantum = '';
+        async function predictWithNetwork(networkType, endpoint) {
+            // Prepare 28x28 image data
+            const smallCanvas = document.createElement("canvas");
+            smallCanvas.width = 28;
+            smallCanvas.height = 28;
+            const smallCtx = smallCanvas.getContext("2d");
+            smallCtx.fillStyle = "black";
+            smallCtx.fillRect(0, 0, 28, 28);
+            smallCtx.drawImage(canvas, 0, 0, 28, 28);
+            const blob = await new Promise(resolve => smallCanvas.toBlob(resolve, "image/png"));
+            const formData = new FormData();
+            formData.append("file", blob, "digit.png");
+            try {
+            const response = await fetch(endpoint, {
+                method: "POST",
+                body: formData
+            });
+            if (response.ok) {
+                const result = await response.json();
+                console.log(`Server response for ${networkType} network:`, result.label);
+                if (networkType === "classical") {
+                    predictionClassical = result.label;
+                    predictionResultclassical.textContent = `${predictionClassical}`;
+                }
+                else if (networkType === "hybrid") {
+                    predictionHybrid = result.label;
+                    predictionResulthybrid.textContent = `${predictionHybrid}`;
+                }
+                // else if (networkType === "quantum") {
+                //     predictionQuantum = result.label;
+                //     predictionResultquantum.textContent = `${predictionQuantum}`;
+                // }
+                // Display result if this network is the active tab
+                if (
+                (currentTab === "overview" && networkType === "hybrid") ||
+                currentTab === networkType
+                ) {
+                document.getElementById('predictionResult').textContent = result.label;
+                if (result.confidences) {
+                    displayConfidenceBars(result.confidences);
+                }
+                }
+            } else {
+                alert(`Upload failed for ${networkType} network.`);
+            }
+            } catch (err) {
+            alert(`Error uploading image for ${networkType} network.`);
+            }
+        }
 
         function simulateNetworkPredictions() {
             // Simulate different network behaviors
