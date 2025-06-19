@@ -375,39 +375,21 @@
                         <tbody>
                             <tr>
                                 <td><strong>Processing Speed</strong></td>
-                                <td class="advantage">Fast</td>
-                                <td class="neutral">Moderate</td>
-                                <td class="disadvantage">Slow (Current Hardware)</td>
+                                <td class="advantage">~20 min</td>
+                                <td class="advantage">~20 min</td>
+                                <td class="advantage">~20 min</td>
                             </tr>
                             <tr>
                                 <td><strong>Accuracy on MNIST</strong></td>
-                                <td class="advantage">~99%</td>
-                                <td class="advantage">~99.2%</td>
-                                <td class="neutral">~97% (Improving)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Model Complexity</strong></td>
-                                <td class="neutral">Medium</td>
-                                <td class="disadvantage">High</td>
-                                <td class="advantage">Low Parameters</td>
+                                <td class="advantage">~98%</td>
+                                <td class="advantage">~98%</td>
+                                <td class="advantage">~87%</td>
                             </tr>
                             <tr>
                                 <td><strong>Hardware Requirements</strong></td>
                                 <td class="advantage">Standard GPU/CPU</td>
-                                <td class="neutral">GPU + Quantum Simulator</td>
-                                <td class="disadvantage">Quantum Computer</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Scalability</strong></td>
-                                <td class="advantage">Excellent</td>
-                                <td class="neutral">Good</td>
-                                <td class="neutral">Theoretical Advantage</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Interpretability</strong></td>
-                                <td class="neutral">Moderate</td>
-                                <td class="disadvantage">Low</td>
-                                <td class="disadvantage">Very Low</td>
+                                <td class="advantage">GPU + Quantum Simulator</td>
+                                <td class="advantage">Quantum Computer/Quantum Simulator</td>
                             </tr>
                         </tbody>
                     </table>
@@ -468,14 +450,24 @@
 
                 <div id="hybrid" class="tab-content">
                     <h2>🔄 Hybrid Neural Network</h2>
+                    <br>
                     <div class="network-info">
                         <div class="info-card">
                             <h3>🏗️ Architecture</h3>
-                            <p>Combines classical neural network layers with quantum circuits. Typically uses quantum layers for feature extraction and classical layers for final processing.</p>
+                            <br>
+                            <br>
+                            <br>
+                            <p>Combines classical neural network layers with quantum circuits. </p>
+                            <p>Typically uses quantum layers for feature extraction and classical layers for final processing.</p>
                         </div>
                         <div class="info-card">
                             <h3>⚡ How it Works</h3>
-                            <p>Raw MNIST images (0s and 1s) are first processed by convolutional and fully-connected classical layers to extract relevant features. These 2 extracted classical features are then encoded into a 2-qubit quantum state using a ZZFeatureMap. A RealAmplitudes quantum circuit then applies learnable rotations and entanglements. Quantum measurements are taken, providing a single output that's then mapped to two class probabilities (0 or 1) by a final classical layer.</p>
+                            <p>Raw MNIST images (0s and 1s) are first processed by convolutional and fully-connected classical layers to extract relevant features.</p>
+                            <br>
+                            <p> These 2 extracted classical features are then encoded into a 2-qubit quantum state using a ZZFeatureMap. A RealAmplitudes quantum circuit then applies learnable rotations and entanglements. 
+                            </p>   
+                            <br>
+                            <p>Quantum measurements are taken, providing a single output that's then mapped to two class probabilities (0 or 1) by a final classical layer.</p>
                         </div>
                         <div class="info-card">
                             <h3>✅ Advantages</h3>
