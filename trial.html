@@ -374,10 +374,10 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Processing Speed</strong></td>
-                                <td class="advantage">~20 min</td>
-                                <td class="advantage">~20 min</td>
-                                <td class="advantage">~20 min</td>
+                                <td><strong>Processing Speed (training) </strong></td>
+                                <td class="advantage">~11 min (5000 samples)</td>
+                                <td class="advantage">~20 min (3000 samples)</td>
+                                <td class="advantage">~26 min (200 samples)</td>
                             </tr>
                             <tr>
                                 <td><strong>Accuracy on MNIST</strong></td>
@@ -407,8 +407,7 @@
                                 input.</p>
                             <br>
                             <p>We used traditional feedforward network with multiple hidden layers. Uses standard
-                                neurons with
-                                weighted connections and activation functions (ReLU)</p>
+                                neurons with weighted connections and activation functions (ReLU)</p>
                             <br>
                         </div>
                         <div class="info-card">
@@ -427,17 +426,22 @@
                         </div>
                         <div class="info-card">
                             <h3>✅ Advantages</h3>
-                            <p>• Well-established and understood<br>• Fast inference on standard hardware<br>• Extensive
-                                tooling and frameworks<br>• Proven performance on many tasks</p>
+                            <p><b>• Well-established and understood</b><br>
+                               <b>• Fast inference on standard hardware</b><br>
+                               <b>• Extensive tooling and frameworks</b><br>
+                               <b>• Proven performance on many tasks</b>
+                            </p>
                         </div>
                         <div class="info-card">
                             <h3>⚠️ Limitations</h3>
-                            <p>• Can require many parameters (in our case 710794)<br>• Prone to overfitting<br>• Limited
-                                by classical computation</p>
+                            <p><b>• Can require many parameters (in our case 710794)</b><br>
+                               <b>• Prone to overfitting</b><br>
+                               <b>• Limited by classical computation</b>
+                            </p>
                         </div>
                         <div class="info-card"
                             style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px;">
-                           <img src="images/classical01.png" alt="Overfitting Example"
+                            <img src="images/classical01.png" alt="Overfitting Example"
                                 style="width: 400px; height: 200px; border-radius: 10px; border: 1px solid #eee;">
                         </div>
                         <div class="info-card"
@@ -455,32 +459,44 @@
                         <div class="info-card">
                             <h3>🏗️ Architecture</h3>
                             <br>
+                            <p>Combines a classical Convolutional Neural Network (CNN) for initial image feature
+                                extraction with a Quantum Neural Network (QNN) for final binary classification.</p>
                             <br>
-                            <br>
-                            <p>Combines classical neural network layers with quantum circuits. </p>
-                            <p>Typically uses quantum layers for feature extraction and classical layers for final processing.</p>
+                            <p> The CNN downsamples MNIST images (28x28) to 2 classical features, which are then input
+                                to a 2-qubit QNN, followed by a final classical linear layer for output.</p>
                         </div>
                         <div class="info-card">
                             <h3>⚡ How it Works</h3>
-                            <p>Raw MNIST images (0s and 1s) are first processed by convolutional and fully-connected classical layers to extract relevant features.</p>
+                            <p>Raw MNIST images (0s and 1s) are first processed by convolutional and fully-connected
+                                classical layers to extract relevant features.</p>
                             <br>
-                            <p> These 2 extracted classical features are then encoded into a 2-qubit quantum state using a ZZFeatureMap. A RealAmplitudes quantum circuit then applies learnable rotations and entanglements. 
-                            </p>   
+                            <p> These 2 extracted classical features are then encoded into a 2-qubit quantum state using
+                                a ZZFeatureMap. A RealAmplitudes quantum circuit then applies learnable rotations and
+                                entanglements.
+                            </p>
                             <br>
-                            <p>Quantum measurements are taken, providing a single output that's then mapped to two class probabilities (0 or 1) by a final classical layer.</p>
+                            <p>Quantum measurements are taken, providing a single output that's then mapped to two class
+                                probabilities (0 or 1) by a final classical layer.</p>
                         </div>
                         <div class="info-card">
                             <h3>✅ Advantages</h3>
-                            <p>• Leverages both classical and quantum strengths<br>• Can run on current quantum
-                                simulators<br>• Potentially better feature extraction<br>• Bridge to full quantum
-                                computing</p>
+                            <p>• <b>Leverages Strengths</b>: CNN for initial heavy lifting (feature extraction), QNN for
+                                quantum-enhanced classification on reduced feature set.Add commentMore actions
+                                <br>• <b>Low Qubit Count</b>: Utilizes only 2 qubits, making it feasible for current
+                                quantum simulators and potentially near-term quantum hardware.
+                                <br>• <b>Improved Accuracy</b>: Increased dataset size and focused scope lead to high
+                                accuracy on the specific 0 vs. 1 task.
+                                <br>• <b>Bridge to full quantum computing</b>
+                            </p>
                         </div>
                         <div class="info-card">
                             <h3>⚠️ Limitations</h3>
-                            <p>• <b>Quantum Simulation Overhead</b>: Still relies on quantum simulators for training and inference, which can be computationally intensive.
-                                <br>• <b>Training Stability</b>: As with many hybrid models, training can sometimes exhibit instability or slow convergence.
-                                <br>• <b>Hardware Dependency</b>: Performance and scalability are still limited by the capabilities of current and future quantum hardware.
-                            </p>
+                            <p>• <b>Quantum Simulation Overhead</b>: Still relies on quantum simulators for training and
+                                inference, which can be computationally intensive.Add commentMore actions
+                                <br>• <b>Training Stability</b>: As with many hybrid models, training can sometimes
+                                exhibit instability or slow convergence.
+                                <br>• <b>Hardware Dependency</b>: Performance and scalability are still limited by the
+                                capabilities of current and future quantum hardware.
                         </div>
                     </div>
                 </div>
