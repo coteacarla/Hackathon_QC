@@ -471,14 +471,11 @@
                     <div class="network-info">
                         <div class="info-card">
                             <h3>🏗️ Architecture</h3>
-                            <p>Combines classical neural network layers with quantum circuits. Typically uses quantum
-                                layers for feature extraction and classical layers for final processing.</p>
+                            <p>Combines classical neural network layers with quantum circuits. Typically uses quantum layers for feature extraction and classical layers for final processing.</p>
                         </div>
                         <div class="info-card">
                             <h3>⚡ How it Works</h3>
-                            <p>Classical preprocessing feeds into quantum circuits that perform quantum operations
-                                (rotations, entanglement). Quantum measurements are then processed by classical layers.
-                            </p>
+                            <p>Raw MNIST images (0s and 1s) are first processed by convolutional and fully-connected classical layers to extract relevant features. These 2 extracted classical features are then encoded into a 2-qubit quantum state using a ZZFeatureMap. A RealAmplitudes quantum circuit then applies learnable rotations and entanglements. Quantum measurements are taken, providing a single output that's then mapped to two class probabilities (0 or 1) by a final classical layer.</p>
                         </div>
                         <div class="info-card">
                             <h3>✅ Advantages</h3>
@@ -488,8 +485,10 @@
                         </div>
                         <div class="info-card">
                             <h3>⚠️ Limitations</h3>
-                            <p>• Complex to design and debug<br>• Requires quantum simulation overhead<br>• Training can
-                                be unstable<br>• Limited by current quantum hardware</p>
+                            <p>• <b>Quantum Simulation Overhead</b>: Still relies on quantum simulators for training and inference, which can be computationally intensive.
+                                <br>• <b>Training Stability</b>: As with many hybrid models, training can sometimes exhibit instability or slow convergence.
+                                <br>• <b>Hardware Dependency</b>: Performance and scalability are still limited by the capabilities of current and future quantum hardware.
+                            </p>
                         </div>
                     </div>
                 </div>
