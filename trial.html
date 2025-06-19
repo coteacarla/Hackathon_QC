@@ -64,7 +64,7 @@
             margin-bottom: 20px;
         }
 
-        #drawingCanvas {
+        #canvas {
             border: 3px solid #9d5cde;
             border-radius: 10px;
             cursor: crosshair;
@@ -310,12 +310,12 @@
             <div class="drawing-section">
                 <h2>✏️ Draw Your Digit</h2>
                 <div class="canvas-container">
-                    <canvas id="drawingCanvas" width="280" height="280"></canvas>
+                    <canvas id="canvas" width="280" height="280"></canvas>
                 </div>
 
                 <div class="drawing-tools">
-                    <button class="tool-btn" onclick="clearCanvas()">🗑️ Clear</button>
-                    <button class="tool-btn" onclick="saveImage()">💾 Save</button>
+                    <button class="tool-btn" id="clearCanvas">🗑️ Clear</button>
+                    <button class="tool-btn" id="saveCanvas">💾 Save</button>
                 </div>
 
                 <button class="predict-btn" onclick="predictDigit()">🔮 Predict with All Networks</button>
@@ -355,10 +355,10 @@
                 </div>
 
                 <div class="tabs">
-                    <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
-                    <button class="tab" onclick="showTab('classical')">💻 Classical NN</button>
-                    <button class="tab" onclick="showTab('hybrid')">🔄 Hybrid NN</button>
-                    <button class="tab" onclick="showTab('quantum')">⚛️ Quantum NN</button>
+                    <button class="tab active" id="openOverview">📊 Overview</button>
+                    <button class="tab" id="openClassical">💻 Classical NN</button>
+                    <button class="tab" id="openHybrid">🔄 Hybrid NN</button>
+                    <button class="tab" id="openQuantum">⚛️ Quantum NN</button>
                 </div>
 
                 <div id="overview" class="tab-content active">
@@ -393,6 +393,19 @@
                             </tr>
                         </tbody>
                     </table>
+                    <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+                    <!-- <br>
+                    <div>
+                        <h3>📈 Performance Summary</h3>
+                        <p>Classical Neural Networks excel in speed and accuracy for MNIST tasks, while Hybrid
+                            Neural Networks leverage quantum features for enhanced classification. Quantum Neural
+                            Networks show promise but require more data and optimization.</p>
+                        <h3>🔍 Key Takeaways</h3>
+                        <p>Classical NNs are fast and reliable for MNIST, Hybrid NNs combine classical and quantum
+                            strengths, and Quantum NNs are still maturing but offer unique advantages in feature
+                            extraction.</p>
+                    </div>
+                    <br> -->
                 </div>
 
                 <div id="classical" class="tab-content">
@@ -608,6 +621,7 @@
                             • Transpilation increases complexity but enables real hardware execution 🔧</p>
                         </div>
                     </div>
+                    <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
                 </div>
             </div>
         </div>

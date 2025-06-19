@@ -1,4 +1,6 @@
-    const canvas = document.getElementById('drawingCanvas');
+    function init(){
+    const canvas = document.getElementById('canvas');
+    console.log('Canvas element:', canvas);
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
         let currentTab = 'overview';
@@ -75,11 +77,27 @@
             canvas.dispatchEvent(mouseEvent);
         }
 
-        function clearCanvas() {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            document.getElementById('predictionResult').textContent = 'Draw a digit!';
-            document.getElementById('confidenceBars').innerHTML = '';
+        // function clearCanvas() {
+        //     ctx.fillStyle = 'black';
+        //     ctx.fillRect(0, 0, canvas.width, canvas.height);
+        //     document.getElementById('predictionResult').textContent = 'Draw a digit!';
+        //     document.getElementById('confidenceBars').innerHTML = '';
+        // }
+        const clearBtn = document.getElementById("clearCanvas");
+        if (clearBtn) {
+            clearBtn.addEventListener("click", () => {
+                console.log("Clear button clicked");
+                ctx.fillStyle = "black"; // Clear to black
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            });
+        }
+
+        const saveBtn = document.getElementById("saveCanvas");
+        if (saveBtn) {
+            saveBtn.addEventListener("click", () => {
+                console.log("Save button clicked");
+                saveImage();
+            });
         }
 
         function saveImage() {
@@ -89,51 +107,57 @@
             link.click();
         }
 
-        async function predictDigit() {
-            // Predict with Classical NN
-            await predictWithNetwork("classical", "http://127.0.0.1:5000/upload_and_predict_cnn");
-            // Predict with Hybrid NN
-            await predictWithNetwork("hybrid", "http://127.0.0.1:5000/upload_and_predict_hybrid");
-            // Predict with Quantum NN
-            //await predictWithNetwork("quantum", "http://127.0.0.1:5000/upload_and_predict_quantum");
+        function predictDigit() {
+            // Simulate prediction process
+            const results = simulateNetworkPredictions();
+            displayPredictionResults(results);
         }
 
-        async function predictWithNetwork(networkType, endpoint) {
-            // Prepare 28x28 image data
-            const smallCanvas = document.createElement("canvas");
-            smallCanvas.width = 28;
-            smallCanvas.height = 28;
-            const smallCtx = smallCanvas.getContext("2d");
-            smallCtx.fillStyle = "black";
-            smallCtx.fillRect(0, 0, 28, 28);
-            smallCtx.drawImage(canvas, 0, 0, 28, 28);
-            const blob = await new Promise(resolve => smallCanvas.toBlob(resolve, "image/png"));
-            const formData = new FormData();
-            formData.append("file", blob, "drawing.png");
-            try {
-            const response = await fetch(endpoint, {
-                method: "POST",
-                body: formData
-            });
-            if (response.ok) {
-                const result = await response.json();
-                // Display result if this network is the active tab
-                if (
-                (currentTab === "overview" && networkType === "hybrid") ||
-                currentTab === networkType
-                ) {
-                document.getElementById('predictionResult').textContent = result.label;
-                if (result.confidences) {
-                    displayConfidenceBars(result.confidences);
-                }
-                }
-            } else {
-                alert(`Upload failed for ${networkType} network.`);
-            }
-            } catch (err) {
-            alert(`Error uploading image for ${networkType} network.`);
-            }
-        }
+        // async function predictDigit() {
+        //     // Predict with Classical NN
+        //     await predictWithNetwork("classical", "http://127.0.0.1:5000/upload_and_predict_cnn");
+        //     // Predict with Hybrid NN
+        //     await predictWithNetwork("hybrid", "http://127.0.0.1:5000/upload_and_predict_hybrid");
+        //     // Predict with Quantum NN
+        //     //await predictWithNetwork("quantum", "http://127.0.0.1:5000/upload_and_predict_quantum");
+        // }
+
+        // async function predictWithNetwork(networkType, endpoint) {
+        //     // Prepare 28x28 image data
+        //     const smallCanvas = document.createElement("canvas");
+        //     smallCanvas.width = 28;
+        //     smallCanvas.height = 28;
+        //     const smallCtx = smallCanvas.getContext("2d");
+        //     smallCtx.fillStyle = "black";
+        //     smallCtx.fillRect(0, 0, 28, 28);
+        //     smallCtx.drawImage(canvas, 0, 0, 28, 28);
+        //     const blob = await new Promise(resolve => smallCanvas.toBlob(resolve, "image/png"));
+        //     const formData = new FormData();
+        //     formData.append("file", blob, "drawing.png");
+        //     try {
+        //     const response = await fetch(endpoint, {
+        //         method: "POST",
+        //         body: formData
+        //     });
+        //     if (response.ok) {
+        //         const result = await response.json();
+        //         // Display result if this network is the active tab
+        //         if (
+        //         (currentTab === "overview" && networkType === "hybrid") ||
+        //         currentTab === networkType
+        //         ) {
+        //         document.getElementById('predictionResult').textContent = result.label;
+        //         if (result.confidences) {
+        //             displayConfidenceBars(result.confidences);
+        //         }
+        //         }
+        //     } else {
+        //         alert(`Upload failed for ${networkType} network.`);
+        //     }
+        //     } catch (err) {
+        //     alert(`Error uploading image for ${networkType} network.`);
+        //     }
+        // }
 
         function simulateNetworkPredictions() {
             // Simulate different network behaviors
@@ -195,6 +219,7 @@
             });
         }
 
+
         function showTab(tabName) {
             // Hide all tab contents
             const contents = document.querySelectorAll('.tab-content');
@@ -213,9 +238,44 @@
             currentTab = tabName;
         }
 
+        const tabOverviewBtn = document.getElementById("openOverview");
+        if (tabOverviewBtn) {
+            tabOverviewBtn.addEventListener("click", () => {
+                console.log("Open overview clicked");
+                showTab("overview");
+            });
+        }
+
+        const tabClassicalBtn = document.getElementById("openClassical");
+        if (tabClassicalBtn) {
+            tabClassicalBtn.addEventListener("click", () => {
+                console.log("Open classical clicked");
+                showTab("classical");
+            });
+        }
+
+        const tabHybridBtn = document.getElementById("openHybrid");
+        if (tabHybridBtn) {
+            tabHybridBtn.addEventListener("click", () => {
+                console.log("Open classical clicked");
+                showTab("hybrid");
+            });
+        }
+
+        const tabQuantumBtn = document.getElementById("openQuantum");
+        if (tabQuantumBtn) {
+            tabQuantumBtn.addEventListener("click", () => {
+                console.log("Open classical clicked");
+                showTab("quantum");
+            });
+        }
+
         // Initialize with some sample confidence bars
         window.addEventListener('load', () => {
             const sampleConfidences = [0.05, 0.03, 0.08, 0.75, 0.02, 0.01, 0.03, 0.01, 0.01, 0.01];
             displayConfidenceBars(sampleConfidences);
             document.getElementById('predictionResult').textContent = '3';
         });
+    }
+
+    window.onload = init;
