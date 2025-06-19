@@ -46,6 +46,24 @@
             }
         }
 
+        // Image popup functionality
+        function showImagePopup(src, alt) {
+            document.getElementById('imageModal').style.display = 'block';
+            document.getElementById('modalImage').src = src;
+            document.getElementById('modalCaption').textContent = alt;
+        }
+
+        function closeImagePopup() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Close modal when pressing Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeImagePopup();
+            }
+        });
+
         function handleTouch(e) {
             e.preventDefault();
             const touch = e.touches[0];
