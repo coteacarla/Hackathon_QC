@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +25,7 @@
             margin: 0 auto;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
@@ -112,7 +113,7 @@
             font-weight: 600;
             transition: all 0.3s ease;
             flex: 1;
-            height:150px;
+            height: 150px;
         }
 
         .tab.active {
@@ -142,7 +143,7 @@
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .info-card h3 {
@@ -160,7 +161,7 @@
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
@@ -297,6 +298,7 @@
     </style>
     <script src="trial.js"></script>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -310,7 +312,7 @@
                 <div class="canvas-container">
                     <canvas id="drawingCanvas" width="280" height="280"></canvas>
                 </div>
-                
+
                 <div class="drawing-tools">
                     <button class="tool-btn" onclick="clearCanvas()">🗑️ Clear</button>
                     <button class="tool-btn" onclick="saveImage()">💾 Save</button>
@@ -413,22 +415,53 @@
 
                 <div id="classical" class="tab-content">
                     <h2>💻 Classical Neural Network</h2>
+                    <br>
                     <div class="network-info">
                         <div class="info-card">
                             <h3>🏗️ Architecture</h3>
-                            <p>Traditional feedforward network with multiple hidden layers. Uses standard neurons with weighted connections and activation functions like ReLU or sigmoid.</p>
+                            <br>
+                            <p>Classical Convolutional Neural Networks (CCNNs) are a subclass of artificial neural
+                                networks which have the ability to determine particular features and patterns of a given
+                                input.</p>
+                            <br>
+                            <p>We used traditional feedforward network with multiple hidden layers. Uses standard
+                                neurons with
+                                weighted connections and activation functions (ReLU)</p>
+                            <br>
                         </div>
                         <div class="info-card">
                             <h3>⚡ How it Works</h3>
-                            <p>Each neuron computes a weighted sum of inputs, applies an activation function, and passes the result to the next layer. Backpropagation updates weights during training.</p>
+
+                            <p>The capability of determining features is a result of the two types of layers used in a
+                                CCNN, the convolutional layer and pooling layer.
+                            <p>
+                                <br>
+                            <p>The convolutional layer makes use of a kernel, which can determine features and patterns
+                                of a particular input.</p>
+                            <br>
+                            <p>On the other hand, a pooling layer reduces the dimensionality of the input data, reducing
+                                the computational cost and amount of learning parameters in the CCNN. </p>
+
                         </div>
                         <div class="info-card">
                             <h3>✅ Advantages</h3>
-                            <p>• Well-established and understood<br>• Fast inference on standard hardware<br>• Extensive tooling and frameworks<br>• Proven performance on many tasks</p>
+                            <p>• Well-established and understood<br>• Fast inference on standard hardware<br>• Extensive
+                                tooling and frameworks<br>• Proven performance on many tasks</p>
                         </div>
                         <div class="info-card">
                             <h3>⚠️ Limitations</h3>
-                            <p>• Can require many parameters<br>• Prone to overfitting<br>• Local minima in optimization<br>• Limited by classical computation</p>
+                            <p>• Can require many parameters (in our case 710794)<br>• Prone to overfitting<br>• Limited
+                                by classical computation</p>
+                        </div>
+                        <div class="info-card"
+                            style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px;">
+                           <img src="images/classical01.png" alt="Overfitting Example"
+                                style="width: 400px; height: 200px; border-radius: 10px; border: 1px solid #eee;">
+                        </div>
+                        <div class="info-card"
+                            style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px;">
+                            <img src="images/classical2.png" alt="Overfitting Example"
+                                style="width: 400px; height: 200px; border-radius: 10px; border: 1px solid #eee;">
                         </div>
                     </div>
                 </div>
@@ -438,19 +471,25 @@
                     <div class="network-info">
                         <div class="info-card">
                             <h3>🏗️ Architecture</h3>
-                            <p>Combines classical neural network layers with quantum circuits. Typically uses quantum layers for feature extraction and classical layers for final processing.</p>
+                            <p>Combines classical neural network layers with quantum circuits. Typically uses quantum
+                                layers for feature extraction and classical layers for final processing.</p>
                         </div>
                         <div class="info-card">
                             <h3>⚡ How it Works</h3>
-                            <p>Classical preprocessing feeds into quantum circuits that perform quantum operations (rotations, entanglement). Quantum measurements are then processed by classical layers.</p>
+                            <p>Classical preprocessing feeds into quantum circuits that perform quantum operations
+                                (rotations, entanglement). Quantum measurements are then processed by classical layers.
+                            </p>
                         </div>
                         <div class="info-card">
                             <h3>✅ Advantages</h3>
-                            <p>• Leverages both classical and quantum strengths<br>• Can run on current quantum simulators<br>• Potentially better feature extraction<br>• Bridge to full quantum computing</p>
+                            <p>• Leverages both classical and quantum strengths<br>• Can run on current quantum
+                                simulators<br>• Potentially better feature extraction<br>• Bridge to full quantum
+                                computing</p>
                         </div>
                         <div class="info-card">
                             <h3>⚠️ Limitations</h3>
-                            <p>• Complex to design and debug<br>• Requires quantum simulation overhead<br>• Training can be unstable<br>• Limited by current quantum hardware</p>
+                            <p>• Complex to design and debug<br>• Requires quantum simulation overhead<br>• Training can
+                                be unstable<br>• Limited by current quantum hardware</p>
                         </div>
                     </div>
                 </div>
@@ -460,19 +499,24 @@
                     <div class="network-info">
                         <div class="info-card">
                             <h3>🏗️ Architecture</h3>
-                            <p>Built entirely with quantum circuits using qubits, quantum gates, and quantum measurements. Exploits quantum phenomena like superposition and entanglement.</p>
+                            <p>Built entirely with quantum circuits using qubits, quantum gates, and quantum
+                                measurements. Exploits quantum phenomena like superposition and entanglement.</p>
                         </div>
                         <div class="info-card">
                             <h3>⚡ How it Works</h3>
-                            <p>Data is encoded into quantum states, processed through parameterized quantum circuits, and measured to extract classical outputs. Uses quantum interference for computation.</p>
+                            <p>Data is encoded into quantum states, processed through parameterized quantum circuits,
+                                and measured to extract classical outputs. Uses quantum interference for computation.
+                            </p>
                         </div>
                         <div class="info-card">
                             <h3>✅ Advantages</h3>
-                            <p>• Exponential state space with few qubits<br>• Natural handling of probabilistic data<br>• Potential quantum speedup<br>• Novel computational paradigms</p>
+                            <p>• Exponential state space with few qubits<br>• Natural handling of probabilistic
+                                data<br>• Potential quantum speedup<br>• Novel computational paradigms</p>
                         </div>
                         <div class="info-card">
                             <h3>⚠️ Limitations</h3>
-                            <p>• Requires quantum hardware<br>• Susceptible to quantum noise<br>• Limited qubit count currently<br>• Complex quantum error correction</p>
+                            <p>• Requires quantum hardware<br>• Susceptible to quantum noise<br>• Limited qubit count
+                                currently<br>• Complex quantum error correction</p>
                         </div>
                     </div>
                 </div>
@@ -480,4 +524,5 @@
         </div>
     </div>
 </body>
+
 </html>
