@@ -8,18 +8,17 @@ body {
             margin-bottom: 40px;
         }
         .painting-container {
-            /* display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
-            align-items: center;
-            justify-content: center; */
-            
+                       
             display: flex; 
             align-items: center; 
             justify-content: space-between; 
             gap: 25px; 
             margin-bottom: 32px;
+            margin: auto;
+            width: 90%;
+            height: 600px;
+            position: relative;
+            padding: 10px;
        
         }
         .canvas-container{
