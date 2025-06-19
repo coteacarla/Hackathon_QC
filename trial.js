@@ -118,6 +118,7 @@
             predictBtn.addEventListener("click", () => {
                 console.log("Predict button clicked");
                 predictDigit("classical");
+            
                 predictDigit("hybrid");
                 //predictDigit("quantum");
             });

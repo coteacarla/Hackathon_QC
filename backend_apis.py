@@ -38,7 +38,7 @@ def upload_and_predict_hybrid():
         image = Image.open(filepath)
         #label = predict_image_hybrid(image)
         label = 4
-        print(f"Predicted label: {label}")
+        print(f"Predicted label hybrid : {label}")
         return jsonify({'label': label})
 
     return jsonify({'error': 'File upload failed'}), 500
@@ -59,7 +59,7 @@ def upload_and_predict():
         file.save(filepath)
         image = Image.open(filepath)
         label = predict_image_cnn(image)
-        print(f"Predicted label: {label}")
+        print(f"Predicted label classical: {label}")
         return jsonify({'label': label})
 
     return jsonify({'error': 'File upload failed'}), 500
