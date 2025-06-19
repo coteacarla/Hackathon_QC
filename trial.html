@@ -503,27 +503,109 @@
 
                 <div id="quantum" class="tab-content">
                     <h2>⚛️ Quantum Neural Network</h2>
+                    <br>
                     <div class="network-info">
                         <div class="info-card">
                             <h3>🏗️ Architecture</h3>
-                            <p>Built entirely with quantum circuits using qubits, quantum gates, and quantum
-                                measurements. Exploits quantum phenomena like superposition and entanglement.</p>
+                            <p>Built entirely with quantum circuits using qubits, quantum gates, and quantum measurements. Exploits quantum phenomena like superposition and entanglement.</p>
+
+                            <br>
+                            <img src="images/qcnn_circuit_high_level.png" alt="High Level Quantum Neural Network Architecture" style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
+                            <p>High Level QCNN diagram</p>
+
+                            <br>
+                            <img src="images/qcnn_circuit_decomposed.png" alt="Logical Quantum Circuit Implementation" style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
+                            <p>Logical Quantum Circuit Implementation</p>
+
+                            <br>
+                            <img src="images/qcnn_circuit_optimized_transpiled.png" alt="Transpiled Quantum Circuit" style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
+                            <p>Transpiled Quantum Circuit</p>
+
+                            <div id="imageModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); cursor: pointer;" onclick="closeImagePopup()">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 90%; max-height: 90%;">
+                                    <img id="modalImage" src="" alt="" style="width: 100%; height: auto; border-radius: 8px;">
+                                    <p id="modalCaption" style="color: white; text-align: center; margin-top: 10px; font-size: 1.1em;"></p>
+                                </div>
+                            </div>
                         </div>
                         <div class="info-card">
                             <h3>⚡ How it Works</h3>
-                            <p>Data is encoded into quantum states, processed through parameterized quantum circuits,
-                                and measured to extract classical outputs. Uses quantum interference for computation.
-                            </p>
+                            <p>Data is encoded into quantum states, processed through parameterized quantum circuits, and measured to extract classical outputs. Uses quantum interference for computation.</p>
+
+                            <br>
+                            <img src="images/qcnn_input_feature_map.png" alt="Input Encoding Feature Map" style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
+                            <p>Input Encoding Feature Map</p>
+
+                            <br>
+                            <img src="images/qcnn_conv_layer.png" alt="Quantum Convolutional Layer" style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
+                            <p>Quantum Convolutional Layer</p>
+
+                            <br>
+                            <img src="images/qcnn_pool_layer.png" alt="Quantum Pooling Layer" style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
+                            <p>Quantum Pooling Layer</p>
+
+                            <br>
+                            <img src="images/qcnn_mnist_downsampled.png" alt="MNIST downsampled images (8x8)" style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
+                            <p>MNIST Downsampled Images (8x8)</p>
                         </div>
                         <div class="info-card">
                             <h3>✅ Advantages</h3>
-                            <p>• Exponential state space with few qubits<br>• Natural handling of probabilistic
-                                data<br>• Potential quantum speedup<br>• Novel computational paradigms</p>
+                            <p>• Exponential state space with few qubits<br>• Natural handling of probabilistic data<br>• Potential quantum speedup<br>• Novel computational paradigms</p>
+
+                            <br>
+                            <img src="images/qcnn_loss_function.png" alt="Objective function optimization" style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
+                            <p>Objective function optimization</p>
+
+                            <br>
+                            <img src="images/qcnn_ibm_backend.png" alt="IBM real Quantum backend" style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
+                            <p>IBM real Quantum Backend</p>
+
+                            <br>
+                            <img src="images/qcnn_ibm_pub.png" alt="IBM pub job" style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
+                            <p>IBM pub job</p>
                         </div>
                         <div class="info-card">
-                            <h3>⚠️ Limitations</h3>
-                            <p>• Requires quantum hardware<br>• Susceptible to quantum noise<br>• Limited qubit count
-                                currently<br>• Complex quantum error correction</p>
+                            <h3>⚠️ Limitations & Technical Details</h3>
+                            <p><strong>🚧 Current Limitations:</strong><br>
+                            • Requires quantum hardware 🖥️<br>
+                            • Susceptible to quantum noise 📡<br>
+                            • Limited qubit count currently 🔢<br>
+                            • Complex quantum error correction 🛠️</p>
+
+                            <br>
+                            <p><strong>🤔 Why 8 Qubits?</strong><br>
+                            • "0" spreads ink fairly evenly across rows 📊<br>
+                            • "1" concentrates it in centre rows 🎯<br>
+                            • Row-averaged, 8 qubits contain enough discriminative power 💪</p>
+
+                            <br>
+                            <p><strong>🔧 Encoding Methods:</strong><br>
+                            • <em>📐 Angle/Amplitude embedding:</em> Rotation-based maps (ZFeatureMap) = one qubit per feature<br>
+                            • <em>📦 Amplitude packing:</em> 64 features into 6 qubits BUT creates deep and noise-sensitive circuits ⚠️</p>
+
+                            <br>
+                            <p><strong>🏗️ Pooling Architecture:</strong><br>
+                            • Schedule: 8 → 4 → 2 → 1 qubits 📉<br>
+                            • 3 convolution-pool rounds before final qubit read-out 🔄</p>
+
+                            <br>
+                            <p><strong>⚙️ Practical Implementation:</strong><br>
+                            • Circuit short enough to survive coherent noise on 127-qubit hardware 🎛️<br>
+                            • Achieves ~87% accuracy with only 200 training samples 📈</p>
+
+                            <br>
+                            <p><strong>📊 Why 87% Accuracy?</strong><br>
+                            • Limited to only 200 training samples 📝<br>
+                            • Quantum hardware errors and noise 🌊<br>
+                            • Circuit depth limitations 📏<br>
+                            • Still room for optimization improvements 🚀</p>
+
+                            <br>
+                            <p><strong>🔍 Circuit Complexity Analysis:</strong><br>
+                            • <em>Parameters:</em> 71 trainable quantum gate parameters 🎛️<br>
+                            • <em>Logical Circuit:</em> 61 total depth, 24 two-qubit gate depth 🎯<br>
+                            • <em>Transpiled Circuit:</em> 287 total depth, 59 two-qubit gate depth ⚡<br>
+                            • Transpilation increases complexity but enables real hardware execution 🔧</p>
                         </div>
                     </div>
                 </div>
