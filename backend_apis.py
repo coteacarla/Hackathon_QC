@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from backend_cnn import predict_image_cnn
 #from backend_hybrid import predict_image_hybrid
+from backend_cnn import predict_image_cnn
+from backend_qnn import predict_image_qnn
 import os
 
 app = Flask(__name__)
@@ -60,6 +62,26 @@ def upload_and_predict():
         image = Image.open(filepath)
         label = predict_image_cnn(image)
         print(f"Predicted label classical: {label}")
+        return jsonify({'label': label})
+
+    return jsonify({'error': 'File upload failed'}), 500
+
+@app.route('/upload_and_predict_qnn', methods=['POST'])
+def upload_and_predict_qnn():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part in the request'}), 400
+    
+    file = request.files['file']
+    
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+    
+    if file:
+        filepath = os.path.join(DIGITS_SAMPLE_FOLDER, file.filename)
+        file.save(filepath)
+        image = Image.open(filepath)
+        label = predict_image_qnn(image)
+        print(f"Predicted label quantum: {label}")
         return jsonify({'label': label})
 
     return jsonify({'error': 'File upload failed'}), 500

@@ -173,6 +173,45 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const uploadBtnQuantum = document.getElementById("uploadBtnQuantum");
+    if (uploadBtnQuantum) {
+        uploadBtnQuantum.addEventListener("click", async () => {
+            // Get the 28x28 image data
+            const smallCanvas = document.createElement("canvas");
+            smallCanvas.width = 28;
+            smallCanvas.height = 28;
+            const smallCtx = smallCanvas.getContext("2d");
+            smallCtx.fillStyle = "black";
+            smallCtx.fillRect(0, 0, 28, 28);
+            smallCtx.drawImage(canvas, 0, 0, 28, 28);
+            const blob = await new Promise(resolve => smallCanvas.toBlob(resolve, "image/png"));
+            const formData = new FormData();
+            formData.append("file", blob, "drawing.png");
+            try {
+                const response = await fetch("http://127.0.0.1:5000/upload_and_predict_qnn", {
+                    method: "POST",
+                    body: formData
+                });
+                if (response.ok) {
+                    // Handle successful upload
+                    const result = await response.json();
+                    alert("Image uploaded successfully!");
+                    console.log("Server response:", result);
+                    console.log(result);
+                    console.log("Label:", result.label);
+                    prediction = result.label;
+                    console.log(" PREDICTION: ", prediction);
+                    predictionText.textContent = `${prediction}`;
+                    alert("Predicted label for the provided image is: " + result.label);
+                } else {
+                    alert("Upload failed.");
+                }
+            } catch (err) {
+                alert("Error uploading image.");
+            }
+        });
+    }
+
     // Add an event listener to the button to clear the canvas
     const clearBtn = document.getElementById("clearBtn");
     if (clearBtn) {
