@@ -133,8 +133,8 @@
         const predictBtn3 = document.getElementById("predictDigit3");
         if (predictBtn3) {
             predictBtn3.addEventListener("click", () => {
-                console.log("Predict button clicked");          
-             //predictDigit("quantum");
+                console.log("Predict Quantum button clicked");          
+                predictDigit("quantum");
             });
         }
 
@@ -182,10 +182,10 @@
                     predictionHybrid = result.label;
                     predictionResulthybrid.textContent = `${predictionHybrid}`;
                 }
-                // else if (networkType === "quantum") {
-                //     predictionQuantum = result.label;
-                //     predictionResultquantum.textContent = `${predictionQuantum}`;
-                // }
+                else if (networkType === "quantum") {
+                    predictionQuantum = result.label;
+                    predictionResultquantum.textContent = `${predictionQuantum}`;
+                }
                 // Display result if this network is the active tab
                 if (
                 (currentTab === "overview" && networkType === "hybrid") ||
@@ -200,7 +200,7 @@
                 alert(`Upload failed for ${networkType} network.`);
             }
             } catch (err) {
-            alert(`Error uploading image for ${networkType} network.`);
+                alert(`Please wait to process your image for ${networkType} network.`);
             }
         }
 
