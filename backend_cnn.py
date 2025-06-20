@@ -4,10 +4,7 @@ import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 import numpy as np
 
-#image = image.convert("L").resize((28, 28))
-
 device = T.device("cpu")
-
 transform = transforms.Compose([
     transforms.ToTensor(),  # Converts to [0, 1]
 ])
@@ -35,9 +32,6 @@ for digit in range(10):
 test_ds = T.utils.data.Subset(full_test_ds, selected_test_indices)
 
 train_ldr = T.utils.data.DataLoader(train_ds, batch_size=10, shuffle=True)
-max_epochs = 80 
-
-
 class Net(T.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -62,9 +56,6 @@ class Net(T.nn.Module):
         z = T.relu(self.fc2(z))
         z = self.fc3(z)
         return z
-loss_history = []
-net = Net().to(device)
-
 def accuracy(model, ds):
     ldr = T.utils.data.DataLoader(ds, batch_size=len(ds), shuffle=False)
     n_correct = 0
@@ -76,82 +67,56 @@ def accuracy(model, ds):
         n_correct += (predicteds == labels).sum().item()
     return n_correct / len(ds)
 
-def train(train_ldr):
-    
-    loss_func = T.nn.CrossEntropyLoss()
-    optimizer = T.optim.SGD(net.parameters(), lr=0.02)
-    
-    net.train()
-    for epoch in range(max_epochs):
-        ep_loss = 0
-        for (X, y) in train_ldr:
-            optimizer.zero_grad()
-            output = net(X)
-            loss_val = loss_func(output, y)
-            ep_loss += loss_val.item()
-            loss_val.backward()
-            optimizer.step()
-        loss_history.append(ep_loss)
-        if epoch % 5 == 0:
-            print(f"Epoch {epoch} | Loss: {ep_loss:.4f}")
-    return net, loss_history
-
-def show_loss(loss_history):
-    plt.figure(figsize=(10, 5))
-    plt.plot(range(max_epochs), loss_history, marker='o')
-    plt.title('Training Loss Convergence')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.grid(True)
-    plt.show()
-
-def show_accuracy_training_test(model, train_ds, test_ds):
-    train_acc = accuracy(model, train_ds)
-    test_acc = accuracy(model, test_ds)
-    print(f"Training Accuracy: {train_acc:.4f}")
-    print(f"Test Accuracy: {test_acc:.4f}")
-
-# net, loss_history = train(train_ldr)
-# show_loss(loss_history)
-# show_accuracy_training_test(net, train_ds, test_ds)
-
-# # Save the model
-# T.save(net.state_dict(), "./mnist_model.pt")
-# print("Model saved.")
-
-# load the model
+loss_history = []
 net = Net().to(device)
-net.load_state_dict(T.load("./mnist_model.pt"))
+loss_func = T.nn.CrossEntropyLoss()
+optimizer = T.optim.SGD(net.parameters(), lr=0.02)
+max_epochs = 80
+
+#net.train()
+# for epoch in range(max_epochs):
+#     ep_loss = 0
+#     for (X, y) in train_ldr:
+#         optimizer.zero_grad()
+#         output = net(X)
+#         loss_val = loss_func(output, y)
+#         ep_loss += loss_val.item()
+#         loss_val.backward()
+#         optimizer.step()
+#     loss_history.append(ep_loss)
+#     if epoch % 5 == 0:
+#         print(f"Epoch {epoch} | Loss: {ep_loss:.4f}")
+
+#import matplotlib.pyplot as plt
+#plt.figure(figsize=(10, 5))
+#plt.plot(range(max_epochs), loss_history, marker='o')
+#plt.title('Training Loss Convergence')
+#plt.xlabel('Epoch')
+#plt.ylabel('Loss')
+#plt.grid(True)
+#plt.show()
+
+#net.eval()
+#train_acc = accuracy(net, train_ds)
+#print(f"Accuracy on training set: {train_acc:.4f}")
+
+#test_acc = accuracy(net, test_ds)
+#print(f"Accuracy on test set: {test_acc:.4f}")
+
+#T.save(net.state_dict(), "./mnist_model.pt")
+#print("Model saved.")
+
+#Load model once at startup
+net = Net().to(device)
+net.load_state_dict(T.load("./mnist_model.pt", map_location=device))
+#net.eval()
 
 def predict_image_cnn(image):
     image = image.convert("L").resize((28, 28))
     x = np.array(image, dtype=np.float32) / 255.0
-    x = x.reshape(1, 1, 28, 28)
     x = T.tensor(x, dtype=T.float32).to(device)
-    
+    x = x.view(1, 1, 28, 28)
     with T.no_grad():
-        oupt = net(x)
-    am = T.argmax(oupt)
-    digits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-    #return digits[am.item()]
-    return am.item()
-
-#predict_image_cnn("digits_sample/drawing.png")
-
-# from PIL import Image  # type: ignore
-# from PIL import ImageOps
-
-# img = Image.open("digits_sample/drawing_7.png").convert("L").resize((28, 28))
-# x = np.array(img, dtype=np.float32) / 255.0
-
-# plt.imshow(x, cmap='gray')
-# plt.axis('off')
-# plt.show()
-
-# x = x.reshape(1, 1, 28, 28)
-# x = T.tensor(x, dtype=T.float32).to(device)
-# with T.no_grad():
-#     oupt = net(x)
-# am = T.argmax(oupt)
-# digits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-# print(f"Predicted class: '{digits[am]}'")
+        outputs = net(x)
+        _, predicted = T.max(outputs, 1)
+    return int(predicted.item())

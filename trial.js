@@ -1,4 +1,21 @@
-    function init(){
+    function showImagePopup(src, alt) {
+            document.getElementById('imageModal').style.display = 'block';
+            document.getElementById('modalImage').src = src;
+            document.getElementById('modalCaption').textContent = alt;
+        }
+
+        function closeImagePopup() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Close modal when pressing Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeImagePopup();
+            }
+        });
+
+   function init(){
     const canvas = document.getElementById('canvas');
     console.log('Canvas element:', canvas);
         const ctx = canvas.getContext('2d');
@@ -49,23 +66,7 @@
         }
 
         // Image popup functionality
-        function showImagePopup(src, alt) {
-            document.getElementById('imageModal').style.display = 'block';
-            document.getElementById('modalImage').src = src;
-            document.getElementById('modalCaption').textContent = alt;
-        }
-
-        function closeImagePopup() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-
-        // Close modal when pressing Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeImagePopup();
-            }
-        });
-
+       
         function handleTouch(e) {
             e.preventDefault();
             const touch = e.touches[0];
@@ -113,16 +114,30 @@
         //     displayPredictionResults(results);
         // }
 
-        const predictBtn = document.getElementById("predictDigit");
-        if (predictBtn) {
-            predictBtn.addEventListener("click", () => {
+        const predictBtn1 = document.getElementById("predictDigit1");
+        if (predictBtn1) {
+            predictBtn1.addEventListener("click", () => {
                 console.log("Predict button clicked");
                 predictDigit("classical");
-            
-                predictDigit("hybrid");
-                //predictDigit("quantum");
             });
         }
+
+        const predictBtn2 = document.getElementById("predictDigit2");
+        if (predictBtn2) {
+            predictBtn2.addEventListener("click", () => {
+                console.log("Predict button clicked");          
+                predictDigit("hybrid");
+            });
+        }
+
+        const predictBtn3 = document.getElementById("predictDigit3");
+        if (predictBtn3) {
+            predictBtn3.addEventListener("click", () => {
+                console.log("Predict button clicked");          
+             //predictDigit("quantum");
+            });
+        }
+
 
         async function predictDigit(networkType) {
             if(networkType === "classical") 

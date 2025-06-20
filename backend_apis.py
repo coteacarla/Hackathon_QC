@@ -1,8 +1,8 @@
 from PIL import Image
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-#from backend_hybrid import predict_image_hybrid
 from backend_cnn import predict_image_cnn
+#from backend_hybrid import predict_image_hybrid
 import os
 
 app = Flask(__name__)
