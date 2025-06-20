@@ -44,7 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
     renderImages('classical-images', classicalImages);
 
     // Painting functionality
-    const canvas = document.getElementById("paintCanvas");
+    const canvas = document.getElementById("canvas");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     // Set background to black
@@ -174,7 +174,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     // Add an event listener to the button to clear the canvas
-    const clearBtn = document.getElementById("clearBtn");
+    const clearBtn = document.getElementById("clearCanvas");
     if (clearBtn) {
         clearBtn.addEventListener("click", () => {
             ctx.fillStyle = "black"; // Clear to black
