@@ -302,9 +302,13 @@
 
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🧠 Neural Network Comparison</h1>
-            <p>Explore the differences between Classical, Hybrid, and Quantum Neural Networks</p>
+        <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 40px; position: relative;">
+            <img src="images/logo-uaic.png" alt="UAIC Logo" style="height: 140px; width: auto; border-radius: 10px; padding: 5px; margin-right: 40px; margin-left: 40px;">
+            <div style="flex: 1; text-align: center;">
+                <h1>🧠 Neural Network Comparison</h1>
+                <p>Explore the differences between Classical, Hybrid, and Quantum Neural Networks</p>
+            </div>
+            <img src="images/logo-fii.png" alt="FII Logo" style="height: 80px; width: auto; border-radius: 10px; padding: 5px; margin-left: 60px; margin-right: 40px;">
         </div>
 
         <div class="main-content">
@@ -457,13 +461,13 @@
                         </div>
                         <div class="info-card"
                             style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px;">
-                            <img src="images/classical01.png" alt="Overfitting Example"
-                                style="width: 300px; height: 200px; border-radius: 10px; border: 1px solid #eee;">
+                            <img src="images/classical01.png" alt="Predictions"
+                            style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
                         </div>
                         <div class="info-card"
                             style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px;">
-                            <img src="images/classical2.png" alt="Overfitting Example"
-                                style="width: 300px; height: 200px; border-radius: 10px; border: 1px solid #eee;">
+                            <img src="images/classical2.png" alt="Loss Function"
+                             style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
                         </div>
                     </div>
                 </div>
@@ -536,13 +540,6 @@
                             <br>
                             <img src="images/qcnn_circuit_optimized_transpiled.png" alt="Transpiled Quantum Circuit" style="width: 100%; height: auto; margin: 10px 0; border-radius: 8px; cursor: pointer;" onclick="showImagePopup(this.src, this.alt)">
                             <p>Transpiled Quantum Circuit</p>
-
-                            <div id="imageModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); cursor: pointer;" onclick="closeImagePopup()">
-                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 90%; max-height: 90%;">
-                                    <img id="modalImage" src="" alt="" style="width: 100%; height: auto; border-radius: 8px;">
-                                    <p id="modalCaption" style="color: white; text-align: center; margin-top: 10px; font-size: 1.1em;"></p>
-                                </div>
-                            </div>
                         </div>
                         <div class="info-card">
                             <h3>⚡ How it Works</h3>
@@ -629,6 +626,11 @@
             </div>
         </div>
     </div>
+    <div id="imageModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); cursor: pointer;" onclick="closeImagePopup()">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 90%; max-height: 90%;">
+            <img id="modalImage" src="" alt="" style="width: 100%; height: auto; border-radius: 8px;">
+            <p id="modalCaption" style="color: white; text-align: center; margin-top: 10px; font-size: 1.1em;"></p>
+        </div>
+    </div>
 </body>
-
 </html>
