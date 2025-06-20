@@ -5,6 +5,7 @@ from backend_cnn import predict_image_cnn
 #from backend_hybrid import predict_image_hybrid
 from backend_cnn import predict_image_cnn
 from backend_qnn import predict_image_qnn
+from backend_hybrid import predict_image_hybrid
 import os
 
 app = Flask(__name__)
@@ -38,8 +39,7 @@ def upload_and_predict_hybrid():
         filepath = os.path.join(DIGITS_SAMPLE_FOLDER, file.filename)
         file.save(filepath)
         image = Image.open(filepath)
-        #label = predict_image_hybrid(image)
-        label = 4
+        label = predict_image_hybrid(image)
         print(f"Predicted label hybrid : {label}")
         return jsonify({'label': label})
 

@@ -27,6 +27,7 @@ from qiskit.circuit import Parameter
 from flask import Flask, jsonify, send_file, request
 import io
 from PIL import Image
+import time # Import time to measure epoch duration
 
 
 def hybrid_model_train():
@@ -36,8 +37,8 @@ def hybrid_model_train():
     # Set train shuffle seed (for reproducibility)
     manual_seed(42)
 
-    batch_size = 1
-    n_samples = 100  # We will concentrate on the first 100 samples
+    batch_size = 64
+    n_samples_train_per_digit = 1500  # Increased samples per digit
 
     # Use pre-defined torchvision function to load MNIST train data
     X_train = datasets.MNIST(
@@ -45,9 +46,10 @@ def hybrid_model_train():
     )
 
     # Filter out labels (originally 0-9), leaving only labels 0 and 1
-    idx = np.append(
-        np.where(X_train.targets == 0)[0][:n_samples], np.where(X_train.targets == 1)[0][:n_samples]
-    )
+    idx_0 = np.where(X_train.targets == 0)[0][:n_samples_train_per_digit]
+    idx_1 = np.where(X_train.targets == 1)[0][:n_samples_train_per_digit]
+    idx = np.concatenate((idx_0, idx_1))
+
     X_train.data = X_train.data[idx]
     X_train.targets = X_train.targets[idx]
 
@@ -61,22 +63,25 @@ def hybrid_model_show_training(train_loader):
     data_iter = iter(train_loader)
     fig, axes = plt.subplots(nrows=1, ncols=n_samples_show, figsize=(10, 3))
 
-    while n_samples_show > 0:
+    # Calculate the actual number of available batches in the DataLoader
+    num_batches_available = len(train_loader)
+
+    # Limit n_samples_show to the actual number of batches available
+    n_samples_to_plot = min(n_samples_show, num_batches_available)
+
+    for i in range(n_samples_to_plot):
         images, targets = data_iter.__next__()
 
-        axes[n_samples_show - 1].imshow(images[0, 0].numpy().squeeze(), cmap="gray")
-        axes[n_samples_show - 1].set_xticks([])
-        axes[n_samples_show - 1].set_yticks([])
-        axes[n_samples_show - 1].set_title("Labeled: {}".format(targets[0].item()))
+        axes[i].imshow(images[0, 0].numpy().squeeze(), cmap="gray")
+        axes[i].set_xticks([])
+        axes[i].set_yticks([])
+        axes[i].set_title("Labeled: {}".format(targets[0].item()))
+    plt.show()
 
-        n_samples_show -= 1
 
-def hybrid_model_test(batch_size=1, n_samples=50):
+def hybrid_model_test(batch_size=64, n_samples_test_per_digit=500):
     # Test Dataset
     # -------------
-
-    # Set test shuffle seed (for reproducibility)
-    # manual_seed(5)
 
     # Use pre-defined torchvision function to load MNIST test data
     X_test = datasets.MNIST(
@@ -84,9 +89,10 @@ def hybrid_model_test(batch_size=1, n_samples=50):
     )
 
     # Filter out labels (originally 0-9), leaving only labels 0 and 1
-    idx = np.append(
-        np.where(X_test.targets == 0)[0][:n_samples], np.where(X_test.targets == 1)[0][:n_samples]
-    )
+    idx_0 = np.where(X_test.targets == 0)[0][:n_samples_test_per_digit]
+    idx_1 = np.where(X_test.targets == 1)[0][:n_samples_test_per_digit]
+    idx = np.concatenate((idx_0, idx_1))
+    
     X_test.data = X_test.data[idx]
     X_test.targets = X_test.targets[idx]
 
@@ -122,7 +128,7 @@ class Net(Module):
         self.fc2 = Linear(64, 2)  # 2-dimensional input to QNN
         self.qnn = TorchConnector(qnn)  # Apply torch connector, weights chosen
         # uniformly at random from interval [-1,1].
-        self.fc3 = Linear(1, 1)  # 1-dimensional output from QNN
+        self.fc3 = Linear(1, 2)  # 2-dimensional output from QNN (for 2 classes)
 
     def forward(self, x):
         x = F.relu(self.conv1(x))
@@ -135,7 +141,7 @@ class Net(Module):
         x = self.fc2(x)
         x = self.qnn(x)  # apply QNN
         x = self.fc3(x)
-        return cat((x, 1 - x), -1)
+        return F.log_softmax(x, dim=1) # Use log_softmax for NLLLoss
 
 def hybrid_model_actually_hybrid_train(model4, train_loader):
     # Define model, optimizer, and loss function
@@ -148,6 +154,7 @@ def hybrid_model_actually_hybrid_train(model4, train_loader):
     model4.train()  # Set model to training mode
 
     for epoch in range(epochs):
+        start_time = time.time()
         total_loss = []
         for batch_idx, (data, target) in enumerate(train_loader):
             optimizer.zero_grad(set_to_none=True)  # Initialize gradient
@@ -157,21 +164,27 @@ def hybrid_model_actually_hybrid_train(model4, train_loader):
             optimizer.step()  # Optimize weights
             total_loss.append(loss.item())  # Store loss
         loss_list.append(sum(total_loss) / len(total_loss))
-        print("Training [{:.0f}%]\tLoss: {:.4f}".format(100.0 * (epoch + 1) / epochs, loss_list[-1]))
+        end_time = time.time()
+        epoch_duration = end_time - start_time
+        print("Training [{:.0f}%]\tLoss: {:.4f}\tEpoch Time: {:.2f}s".format(
+            100.0 * (epoch + 1) / epochs, loss_list[-1], epoch_duration))
 
-def hybrid_model_evaluate_performance(model,batch_size=1):
-    
+    # Plot loss convergence
+    plt.plot(loss_list)
+    plt.title("Hybrid NN Training Convergence")
+    plt.xlabel("Training Iterations")
+    plt.ylabel("Neg. Log Likelihood Loss")
+    plt.show()
+
+def hybrid_model_evaluate_performance(model, test_loader, batch_size=64):
     loss_func = NLLLoss()
     total_loss = []
-    model5.eval()  # set model to evaluation mode
+    model.eval()  # set model to evaluation mode
     with no_grad():
-
         correct = 0
         for batch_idx, (data, target) in enumerate(test_loader):
-            output = model5(data)
-            if len(output.shape) == 1:
-                output = output.reshape(1, *output.shape)
-
+            output = model(data)
+            
             pred = output.argmax(dim=1, keepdim=True)
             correct += pred.eq(target.view_as(pred)).sum().item()
 
@@ -180,46 +193,63 @@ def hybrid_model_evaluate_performance(model,batch_size=1):
 
         print(
             "Performance on test data:\n\tLoss: {:.4f}\n\tAccuracy: {:.1f}%".format(
-                sum(total_loss) / len(total_loss), correct / len(test_loader) / batch_size * 100
+                sum(total_loss) / len(total_loss), correct / len(test_loader.dataset) * 100
             )
         )
 
-image = Image.open("digits_sample/drawing_0.png")
+def hybrid_model_plot_predicted_labels(model, test_loader, n_samples_show=6):
+    count = 0
+    fig, axes = plt.subplots(nrows=1, ncols=n_samples_show, figsize=(10, 3))
 
-(X_train,train_loader) = hybrid_model_train()
-hybrid_model_show_training(train_loader)
-(X_test, test_loader) = hybrid_model_test()
+    model.eval()
+    with no_grad():
+        for batch_idx, (data, target) in enumerate(test_loader):
+            if count == n_samples_show:
+                break
+            output = model(data[0:1])
+            
+            pred = output.argmax(dim=1, keepdim=True)
+
+            axes[count].imshow(data[0].numpy().squeeze(), cmap="gray")
+            axes[count].set_xticks([])
+            axes[count].set_yticks([])
+            axes[count].set_title("Predicted {}".format(pred.item()))
+
+            count += 1
+    plt.show() # Display the plot
+
+
+def predict_image_hybrid(image):
+    image = image.convert('L')
+    image = image.resize((28, 28))
+    img_tensor = transforms.ToTensor()(image).unsqueeze(0)
+
+    model_loaded.eval()
+    with no_grad():
+        output = model_loaded(img_tensor)
+        pred = output.argmax(dim=1, keepdim=True).item()
+    return pred
+
+
+# Main execution flow
+# (X_train, train_loader) = hybrid_model_train()
+# hybrid_model_show_training(train_loader)
+# (X_test, test_loader) = hybrid_model_test()
 
 # qnn4 = create_qnn()
 # model4 = Net(qnn4)
 # hybrid_model_actually_hybrid_train(model4, train_loader)
+# torch.save(model4.state_dict(), "model4.pt")
+
 # qnn5 = create_qnn()
 # model5 = Net(qnn5)
-# torch.save(model4.state_dict(), "model4.pt")
 # model5.load_state_dict(torch.load("model4.pt"))
-# hybrid_model_evaluate_performance(model5, batch_size=1)
-#hybrid_model_plot_predicted_labels(model5)
+# hybrid_model_evaluate_performance(model5, test_loader)
+# hybrid_model_plot_predicted_labels(model5, test_loader)
 
-
-#load the model model4.pt
-model5 = Net(create_qnn())
-model5.load_state_dict(torch.load("model4.pt"))
-
-
-def predict_image_hybrid(image):
-    img = image.convert('L')
-    img = img.resize((28, 28))
-    img_tensor = transforms.ToTensor()(img).unsqueeze(0)
-
-    model5.eval()
-    with no_grad():
-        output = model5(img_tensor)
-        if len(output.shape) == 1:
-            output = output.reshape(1, *output.shape)
-        pred = output.argmax(dim=1, keepdim=True).item()
-    print(f"Predicted label: {pred}")
-    digits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-    #return digits[pred.item()]
-    return pred
-
-#predict_image(image)
+# Load model once at startup
+device = torch.device("cpu")
+qnn_loaded = create_qnn()
+model_loaded = Net(qnn_loaded)
+model_loaded.load_state_dict(torch.load("model4.pt", map_location=device))
+model_loaded.eval()
